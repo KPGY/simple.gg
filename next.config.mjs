@@ -7,12 +7,12 @@ const nextConfig = {
     return [
       {
         // 모든 API 경로에 대해 CORS 헤더 추가
-        source: '/(.*)', // API 경로 지정
+        source: '/api/:path*', // API 경로 지정
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           {
             key: 'Access-Control-Allow-Origin',
-            value: 'https://simple-gg.vercel.app',
+            value: '*',
           }, // 특정 출처 허용
           {
             key: 'Access-Control-Allow-Methods',
@@ -24,6 +24,20 @@ const nextConfig = {
               'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version', // 허용할 헤더
           },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        // KR API로 리디렉션
+        source: '/api/kr/:path*',
+        destination: 'https://kr.api.riotgames.com/:path*',
+      },
+      {
+        // Asia API로 리디렉션
+        source: '/api/asia/:path*',
+        destination: 'https://asia.api.riotgames.com/:path*',
       },
     ];
   },
