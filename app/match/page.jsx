@@ -167,7 +167,6 @@ export default function Match() {
             const mySpell1 = findSummonerByKey(spellData, mySpellId1);
             const mySpell2 = findSummonerByKey(spellData, mySpellId2);
 
-            console.log(spellData);
             return (
               <div
                 key={matchIndex}
