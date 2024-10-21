@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import {
-  getUserid,
+  getUserId,
   getUserData,
   getRankInfo,
   getMatchId,
-} from '../api/getUser';
+} from './api/getUser/apiCall';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import useStore from '@/store/useStore';
@@ -37,7 +37,7 @@ export default function Home() {
 
     if (nickname && tag) {
       try {
-        const Info = await getUserid(nickname, tag);
+        const Info = await getUserId(nickname, tag);
         const summonerInfo = await getUserData(Info.puuid);
         const rankInfo = await getRankInfo(summonerInfo.id);
         const matchId = await getMatchId(Info.puuid);
@@ -60,14 +60,6 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen'>
-      <Image
-        src={'/SampleLogo.jpg'}
-        width={300}
-        height={300}
-        alt='로고 이미지'
-        className='mb-10'
-        priority // 우선적으로 이미지를 로드함
-      />
       <input
         className='border border-gray-300 rounded-md p-2 mb-4 w-4/5 md:w-1/3 lg:w-1/4'
         type='text'

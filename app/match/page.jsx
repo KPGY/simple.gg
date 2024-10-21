@@ -1,9 +1,9 @@
 'use client';
 import Image from 'next/image';
 import useStore from '@/store/useStore';
-import { getMatchHistory, getSpellId } from '../../api/getUser';
+import { getMatchHistory, getSpellId } from '../api/getUser/apiCall';
 import { useEffect, useState } from 'react';
-import findSummonerByKey from '../../components/getSpell';
+import findSummonerByKey from '../components/getSpell';
 
 export default function Match() {
   const summonerInfo = useStore((state) => state.summonerInfo);
@@ -269,7 +269,7 @@ export default function Match() {
           <div className='flex justify-center'>
             <button
               className='mt-2 mb-4 p-3 bg-blue-500 text-white rounded-lg shadow-md text-lg w-3/5'
-              onClick={handleLoadMore}
+              onClick={() => handleLoadMore}
             >
               더보기
             </button>
