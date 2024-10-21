@@ -107,8 +107,8 @@ export default function Match() {
   };
 
   return (
-    <div className='flex flex-col items-center mt-14 min-h-screen gap-2'>
-      <div className='flex flex-row items-center bg-slate-500 p-6 rounded-lg shadow-md sm:w-2/3 xl:w-1/3 lg:w-1/2 sm:gap-12 gap-7 w-4/5'>
+    <div className='flex flex-col items-center justify-center mt-14 min-h-screen gap-2'>
+      <div className='flex flex-row items-center bg-slate-500 p-6 rounded-lg shadow-md sm:w-2/3 xl:w-1/3 lg:w-1/2 sm:gap-12 gap-7 w-5/6'>
         <Image
           className='object-cover mb-4'
           src={`https://ddragon.leagueoflegends.com/cdn/14.20.1/img/profileicon/${summonerSubInfo?.profileIconId}.png`}
@@ -126,7 +126,7 @@ export default function Match() {
         </div>
       </div>
 
-      <div className='flex flex-row items-center bg-slate-500 p-6 rounded-lg shadow-md sm:w-2/3 xl:w-1/3 lg:w-1/2 sm:gap-12 gap-7 w-4/5'>
+      <div className='flex flex-row items-center bg-slate-500 p-6 rounded-lg shadow-md sm:w-2/3 xl:w-1/3 lg:w-1/2 sm:gap-12 gap-7 w-5/6'>
         <Image
           className='object-cover mb-4'
           src={rankIcon}
@@ -151,7 +151,7 @@ export default function Match() {
       </div>
 
       {results.length > 0 ? (
-        <div className='mt-7 sm:w-2/3 xl:w-1/3 lg:w-1/2 w-4/5'>
+        <div className='mt-7 sm:w-2/3 xl:w-1/3 lg:w-1/2 w-5/6'>
           {results.map((match, matchIndex) => {
             const myIndex = myIndices[matchIndex];
             const myParticipant = match.participants[myIndex];
@@ -174,13 +174,13 @@ export default function Match() {
                   myParticipant.win ? 'bg-blue-300' : 'bg-red-300'
                 }`}
               >
-                <h3 className='font-bold text-lg mb-4 flex'>
+                <div className='font-bold text-lg mb-4 flex items-center'>
                   <Image
                     src={`https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/${myParticipant.championName}.png`}
                     width={75}
                     height={75}
                     alt='챔피언 이미지'
-                    className='rounded-full'
+                    className='rounded-full w-16 h-16 xl:w-20 xl:h-20'
                   />
                   <div className='flex flex-col object-cover justify-center pl-2 gap-1'>
                     <Image
@@ -188,12 +188,14 @@ export default function Match() {
                       width={30}
                       height={30}
                       alt='스펠1'
+                      className='w-12 h-8 xl:w-10 xl:h-10'
                     />
                     <Image
                       src={`https://ddragon.leagueoflegends.com/cdn/14.20.1/img/spell/${mySpell2}.png`}
                       width={30}
                       height={30}
                       alt='스펠2'
+                      className='w-12 h-8 xl:w-10 xl:h-10'
                     />
                   </div>
                   <div className='flex flex-col gap-3 pl-2'>
@@ -202,7 +204,7 @@ export default function Match() {
                       {myParticipant.assists}
                     </div>
 
-                    <div className='flex gap-2'>
+                    <div className='flex gap-2 flex-wrap'>
                       {Array.from({ length: 7 }).map((_, index) => {
                         const itemValue = myParticipant[`item${index}`];
                         return itemValue ? (
@@ -225,7 +227,7 @@ export default function Match() {
                       })}
                     </div>
                   </div>
-                </h3>
+                </div>
                 <div className='flex justify-between'>
                   {/* 승리자 리스트 */}
                   <ul className='w-1/2'>
@@ -269,7 +271,7 @@ export default function Match() {
           <div className='flex justify-center'>
             <button
               className='mt-2 mb-4 p-3 bg-blue-500 text-white rounded-lg shadow-md text-lg w-3/5'
-              onClick={() => handleLoadMore}
+              onClick={handleLoadMore}
             >
               더보기
             </button>
