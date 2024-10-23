@@ -158,7 +158,6 @@ export default function Match() {
             const myIndex = myIndices[matchIndex];
             const myParticipant = match.participants[myIndex];
             const mode = translate(match.queue);
-            console.log(mode);
             const winners = match.participants.filter(
               (participant) => participant.win
             );

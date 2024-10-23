@@ -8,11 +8,13 @@ import {
 } from './api/getUser/apiCall';
 import { useRouter } from 'next/navigation';
 import useStore from '@/store/useStore';
+import LoadingSpinner from './components/loading';
 
 export default function Home() {
   const [nickname, setNickname] = useState('');
   const [tag, setTag] = useState('');
   const [warning, setWarning] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   const router = useRouter();
 
   const setSummonerInfo = useStore((state) => state.setSummonerInfo); // Zustand에서 setSummonerInfo 가져오기
@@ -35,6 +37,7 @@ export default function Home() {
     e.preventDefault();
 
     if (nickname && tag) {
+      setIsLoading(true); // 검색 시작할 때 로딩 상태로 설정
       try {
         const Info = await getUserId(nickname, tag);
         const summonerInfo = await getUserData(Info.puuid);
@@ -47,8 +50,10 @@ export default function Home() {
         setRankInfo(rankInfo);
         setMatchId(matchId);
 
+        setIsLoading(false); // 로딩 끝
         router.push('/match'); // 매치 페이지로 이동
       } catch (error) {
+        setIsLoading(false); // 에러 발생 시 로딩 끝
         setWarning('존재하지 않는 사용자입니다.');
         console.log(error);
       }
@@ -59,29 +64,35 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen'>
-      <input
-        className='border border-gray-300 rounded-md p-2 mb-4 w-4/5 md:w-1/3 lg:w-1/4'
-        type='text'
-        placeholder='닉네임'
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-      />
-      <input
-        className='border border-gray-300 rounded-md p-2 mb-4 w-4/5 md:w-1/3 lg:w-1/4'
-        type='text'
-        placeholder='태그 (기본값: kr1)'
-        value={tag}
-        onChange={(e) => setTag(e.target.value)}
-      />
-      {warning && (
-        <div className='mb-4 text-red-500 animate-bounce'>{warning}</div>
+      {isLoading ? ( // 로딩 중일 때는 로딩 스피너 표시
+        <LoadingSpinner />
+      ) : (
+        <>
+          <input
+            className='border border-gray-300 rounded-md p-2 mb-4 w-4/5 md:w-1/3 lg:w-1/4'
+            type='text'
+            placeholder='닉네임'
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
+          <input
+            className='border border-gray-300 rounded-md p-2 mb-4 w-4/5 md:w-1/3 lg:w-1/4'
+            type='text'
+            placeholder='태그 (기본값: kr1)'
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+          />
+          {warning && (
+            <div className='mb-4 text-red-500 animate-bounce'>{warning}</div>
+          )}
+          <button
+            className='bg-red-500 text-white p-2 rounded-md'
+            onClick={handleSearch}
+          >
+            검색하기
+          </button>
+        </>
       )}
-      <button
-        className='bg-red-500 text-white p-2 rounded-md'
-        onClick={handleSearch}
-      >
-        검색하기
-      </button>
     </div>
   );
 }
