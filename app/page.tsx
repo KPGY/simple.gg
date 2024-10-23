@@ -7,7 +7,6 @@ import {
   getMatchId,
 } from './api/getUser/apiCall';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import useStore from '@/store/useStore';
 
 export default function Home() {
@@ -70,7 +69,7 @@ export default function Home() {
       <input
         className='border border-gray-300 rounded-md p-2 mb-4 w-4/5 md:w-1/3 lg:w-1/4'
         type='text'
-        placeholder='태그'
+        placeholder='태그 (기본값: kr1)'
         value={tag}
         onChange={(e) => setTag(e.target.value)}
       />

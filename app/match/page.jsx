@@ -4,6 +4,7 @@ import useStore from '@/store/useStore';
 import { getMatchHistory, getSpellId } from '../api/getUser/apiCall';
 import { useEffect, useState } from 'react';
 import findSummonerByKey from '../components/getSpell';
+import { translate } from '../components/translateMode';
 
 export default function Match() {
   const summonerInfo = useStore((state) => state.summonerInfo);
@@ -57,6 +58,7 @@ export default function Match() {
             participants: match.participants,
             gameDuration: match.gameDuration,
             gameStartTimestamp: match.gameStartTimestamp,
+            queue: match.queueId,
           }));
 
           // 중복된 매치 ID가 포함되지 않도록 필터링
@@ -155,6 +157,8 @@ export default function Match() {
           {results.map((match, matchIndex) => {
             const myIndex = myIndices[matchIndex];
             const myParticipant = match.participants[myIndex];
+            const mode = translate(match.queue);
+            console.log(mode);
             const winners = match.participants.filter(
               (participant) => participant.win
             );
@@ -199,9 +203,16 @@ export default function Match() {
                     />
                   </div>
                   <div className='flex flex-col gap-3 pl-2'>
-                    <div>
+                    <div className='flex justify-between'>
                       {myParticipant.kills} / {myParticipant.deaths} /{' '}
                       {myParticipant.assists}
+                      <div
+                        className={`${
+                          myParticipant.win ? 'text-blue-700' : 'text-red-700'
+                        }`}
+                      >
+                        {mode}
+                      </div>
                     </div>
 
                     <div className='flex gap-2 flex-wrap'>
